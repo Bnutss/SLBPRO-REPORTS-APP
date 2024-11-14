@@ -22,7 +22,7 @@ class _HourlyReportPageState extends State<HourlyReportPage> {
   }
 
   Future<void> fetchReports() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:8000/reports/api/plans/'));
+    final response = await http.get(Uri.parse('https://slbpro.uz/reports/api/plans/'));
 
     if (response.statusCode == 200) {
       setState(() {

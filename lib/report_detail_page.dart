@@ -24,7 +24,7 @@ class _ReportDetailPageState extends State<ReportDetailPage> {
 
   Future<void> fetchReportDetail() async {
     final response = await http.get(
-      Uri.parse('http://127.0.0.1:8000/reports/api/plans/${widget.reportId}/'),
+      Uri.parse('https://slbpro.uz/reports/api/plans/${widget.reportId}/'),
     );
 
     if (response.statusCode == 200) {
@@ -63,7 +63,7 @@ class _ReportDetailPageState extends State<ReportDetailPage> {
     }
 
     final response = await http.post(
-      Uri.parse('http://127.0.0.1:8000/reports/api/report/${widget.reportId}/add-position/'),
+      Uri.parse('https://slbpro.uz/reports/api/report/${widget.reportId}/add-position/'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({'quantity': quantity}),
     );

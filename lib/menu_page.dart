@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'hourly_report.dart';
-import 'daily_report.dart';
+import 'packaging_report.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({Key? key}) : super(key: key);
@@ -41,55 +41,76 @@ class MenuPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HourlyReportPage()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  backgroundColor: Colors.indigo,
-                  shadowColor: Colors.grey.withOpacity(0.5),
-                  elevation: 5,
-                ),
-                icon: const Icon(
-                  Icons.access_time,
-                  color: Colors.white,
-                ),
-                label: const Text(
-                  'Ежечасный отчет',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white),
-                ),
+              _buildMenuButton(
+                context,
+                icon: Icons.access_time,
+                label: 'Ежечасный отчет',
+                color: Colors.indigo,
+                page: const HourlyReportPage(),
               ),
-              const SizedBox(height: 20),
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const DailyReportPage()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  backgroundColor: Colors.indigoAccent,
-                  shadowColor: Colors.grey.withOpacity(0.5),
-                  elevation: 5,
-                ),
-                icon: const Icon(
-                  Icons.calendar_today,
-                  color: Colors.white,
-                ),
-                label: const Text(
-                  'Ежедневный отчет',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white),
-                ),
+              const SizedBox(height: 30),
+              _buildMenuButton(
+                context,
+                icon: Icons.inventory,
+                label: 'Ежечасный отчет упаковки',
+                color: Colors.indigoAccent,
+                page: const PackagingReportPage(),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuButton(
+      BuildContext context, {
+        required IconData icon,
+        required String label,
+        required Color color,
+        required Widget page,
+      }) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
+      borderRadius: BorderRadius.circular(15),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.8,
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: Colors.white,
+              size: 30,
+            ),
+            const SizedBox(width: 15),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -9,106 +9,166 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text(
-          'Меню',
-          style: TextStyle(color: Colors.white),
+          'SLBPRO',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+            letterSpacing: 1.2,
+          ),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        elevation: 4.0,
-        shadowColor: Colors.grey.withOpacity(0.5),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.indigo, Colors.grey],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
+        elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.indigo, Colors.grey],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF1A237E),
+              Color(0xFF303F9F),
+              Color(0xFF3949AB),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildMenuButton(
-                context,
-                icon: Icons.access_time,
-                label: 'Ежечасный отчет',
-                color: Colors.indigo,
-                page: const HourlyReportPage(),
-              ),
-              const SizedBox(height: 30),
-              _buildMenuButton(
-                context,
-                icon: Icons.inventory,
-                label: 'Ежечасный отчет упаковки',
-                color: Colors.indigoAccent,
-                page: const PackagingReportPage(),
-              ),
-            ],
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 30),
+                Text(
+                  'Меню',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.9),
+                    fontSize: 32,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Text(
+                  'Выберите нужный отчет',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.7),
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 40),
+                Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildMenuCard(
+                          context,
+                          icon: Icons.access_time_rounded,
+                          label: 'Ежечасный отчет',
+                          description: 'Просмотр и редактирование часовых показателей',
+                          gradient: [Color(0xFF3949AB), Color(0xFF5C6BC0)],
+                          page: const HourlyReportPage(),
+                        ),
+                        const SizedBox(height: 24),
+                        _buildMenuCard(
+                          context,
+                          icon: Icons.inventory_2_rounded,
+                          label: 'Ежечасный отчет упаковки',
+                          description: 'Данные по упаковке продукции',
+                          gradient: [Color(0xFF303F9F), Color(0xFF3F51B5)],
+                          page: const PackagingReportPage(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildMenuButton(
+  Widget _buildMenuCard(
       BuildContext context, {
         required IconData icon,
         required String label,
-        required Color color,
+        required String description,
+        required List<Color> gradient,
         required Widget page,
       }) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => page),
         );
       },
-      borderRadius: BorderRadius.circular(15),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.8,
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        width: double.infinity,
+        padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(15),
+          gradient: LinearGradient(
+            colors: gradient,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
             ),
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              color: Colors.white,
-              size: 30,
-            ),
-            const SizedBox(width: 15),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
               ),
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: 36,
+              ),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    description,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white.withOpacity(0.8),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.white.withOpacity(0.7),
+              size: 20,
             ),
           ],
         ),
